@@ -1,0 +1,11 @@
+let TVMConfigAssess = DeviceTvmSecureConfigurationAssessment
+    | where ConfigurationSubcategory == 'Antivirus'
+    | where ConfigurationId == "scid-2012";
+DeviceTvmSoftwareInventoryVulnerabilities
+| where SoftwareVendor == "mcafee"
+| where SoftwareName == "endpoint_security"
+| project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion
+| join kind= inner TVMConfigAssess on DeviceName
+| project DeviceName, IsCompliant, SoftwareVendor, SoftwareName, SoftwareVersion 
+| distinct DeviceName, IsCompliant, SoftwareVendor, SoftwareName, SoftwareVersion 
+| sort by DeviceName asc 

@@ -1,0 +1,2832 @@
+{
+	"info": {
+		"_postman_id": "bdc885d1-28a1-485f-aa56-82a26e14cd5a",
+		"name": "Microsoft Defender ATP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Alerts",
+			"item": [
+				{
+					"name": "List alerts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/alerts",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List alerts - This year",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/alerts?limit=20&sinceTimeUtc=2020-01-01T00:00:00.000",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "20"
+								},
+								{
+									"key": "sinceTimeUtc",
+									"value": "2020-01-01T00:00:00.000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create alert",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"machineId\": \"c75b255f27a02f98de346fd895bef2b69378d352\",\r\n\t\"severity\": \"Low\",\r\n\t\"title\": \"example\",\r\n\t\"description\": \"example alert\",\r\n\t\"recommendedAction\": \"nothing\",\r\n\t\"eventTime\": \"2020-04-07T14:47:08.471Z\",\r\n\t\"reportId\": \"5847\",\r\n\t\"category\": \"Exploit\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/alerts/CreateAlertByReference",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts",
+								"CreateAlertByReference"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Alert",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Types",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"Resolved\",\r\n\t\"assignedTo\": \"rlilly@netrixllc.com\",\r\n    \"classification\": \"FalsePositive\",\r\n    \"determination\": \"Malware\",\r\n    \"comment\": \"Closed by Postman\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/alerts/da637219711169955111_1513898304",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts",
+								"da637219711169955111_1513898304"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get alert",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/alerts/da637219711169025695_-659536238",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts",
+								"da637219711169025695_-659536238"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get alert related domains information",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/alerts/da637219711169025695_-659536238/domains",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts",
+								"da637219711169025695_-659536238",
+								"domains"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get alert related file information",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/alerts/da637219711169025695_-659536238/files",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts",
+								"da637219711169025695_-659536238",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get alert related IPs information",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/alerts/da637219711169025695_-659536238/ips",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts",
+								"da637219711169025695_-659536238",
+								"ips"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get alert related machine information",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/alerts/da637219711169025695_-659536238/machine",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts",
+								"da637219711169025695_-659536238",
+								"machine"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get alert related user information",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/alerts/da637219711169025695_-659536238/user",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts",
+								"da637219711169025695_-659536238",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Machine",
+			"item": [
+				{
+					"name": "List Machines",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": ""
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Machine",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get machine log on users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": ""
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/logonusers",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"logonusers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get machine related alerts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": ""
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/alerts",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"alerts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get installed software",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": ""
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/software",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"software"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get discovered vulnerabilities",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": ""
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/vulnerabilities",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"vulnerabilities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get security recommendations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": ""
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/recommendations",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"recommendations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add machine tag",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Value\" : \"test Tag 2\",\r\n  \"Action\": \"Add\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/tags",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove machine tag",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Value\" : \"test Tag 2\",\r\n  \"Action\": \"Remove\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/tags",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find machines by IP",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": ""
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/findbyip(ip='73.50.18.201',timestamp=2020-04-08T00:00:00Z)",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"findbyip(ip='73.50.18.201',timestamp=2020-04-08T00:00:00Z)"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get missing KBs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": ""
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/getmissingkbs",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"getmissingkbs"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Machine Action",
+			"item": [
+				{
+					"name": "List Machine Actions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machineactions",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machineactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Machine Action",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machineactions/61fcac86-617f-40c4-ba54-6cf0ece90c20",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machineactions",
+								"61fcac86-617f-40c4-ba54-6cf0ece90c20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Collect investigation package",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Comment\": \"Collect forensics with Postman\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/collectInvestigationPackage",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"collectInvestigationPackage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Machine Action - Investigation Package SAS URI",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machineactions/61fcac86-617f-40c4-ba54-6cf0ece90c20/getPackageUri",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machineactions",
+								"61fcac86-617f-40c4-ba54-6cf0ece90c20",
+								"getPackageUri"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Isolate machine",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Comment\": \"Isolate machine due to alert 1234\",\r\n  \"IsolationType\": \"Full\" \r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/isolate",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"isolate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Release machine from isolation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Comment\": \"Unisolate machine since it was clean and validated\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/unisolate",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"unisolate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restrict app execution",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Comment\": \"Restrict code execution due to alert 1234\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/restrictCodeExecution",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"restrictCodeExecution"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove app restriction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Comment\": \"Unrestrict code execution since machine was cleaned and validated\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/unrestrictCodeExecution",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"unrestrictCodeExecution"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Run antivirus scan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Comment\": \"Check machine for viruses due to alert 3212\",\r\n  \"ScanType\": \"Quick\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/runAntiVirusScan",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"runAntiVirusScan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Offboard Machine",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Comment\": \"Offboard machine by Postman automation\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/a02f37fdb8a4718f5df05f03c8f42f71cb74dd4f/offboard",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"a02f37fdb8a4718f5df05f03c8f42f71cb74dd4f",
+								"offboard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stop and quarantine file",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Comment\": \"Stop and quarantine file on machine due to alert 1234\",\r\n  \"Sha1\": \"87662bc3d60e4200ceaf7aae249d1c343f4b83c9\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/machines/a02f37fdb8a4718f5df05f03c8f42f71cb74dd4f/StopAndQuarantineFile",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"a02f37fdb8a4718f5df05f03c8f42f71cb74dd4f",
+								"StopAndQuarantineFile"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Automated Investigation",
+			"item": [
+				{
+					"name": "List Investigations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/investigations",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"investigations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Investigation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/investigations/180",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"investigations",
+								"180"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start Investigation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Comment\": \"Test investigation\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.microsoft.com/api/machines/c75b255f27a02f98de346fd895bef2b69378d352/startInvestigation",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"api",
+								"machines",
+								"c75b255f27a02f98de346fd895bef2b69378d352",
+								"startInvestigation"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Indicators",
+			"item": [
+				{
+					"name": "Submit Indicator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"indicatorValue\": \"99.99.99.99\",\r\n\t\"indicatorType\": \"IpAddress\",\r\n\t\"title\": \"test\",\r\n\t\"application\": \"demo-test\",\r\n\t\"expirationTime\": \"2020-12-12T00:00:00Z\",\r\n\t\"action\": \"AlertAndBlock\",\r\n\t\"severity\": \"Informational\",\r\n\t\"description\": \"test\",\r\n\t\"recommendedActions\": \"nothing\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/indicators",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"indicators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Indicators",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/indicators",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"indicators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Indicator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/indicators/2258",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"indicators",
+								"2258"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Indicator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/indicators/2259",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"indicators",
+								"2259"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Domains",
+			"item": [
+				{
+					"name": "Get domain related alerts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/domains/mail.ru/alerts",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"domains",
+								"mail.ru",
+								"alerts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get domain related machines",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/domains/mail.ru/machines",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"domains",
+								"mail.ru",
+								"machines"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get domain statistics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/domains/mail.ru/stats",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"domains",
+								"mail.ru",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "File",
+			"item": [
+				{
+					"name": "Get file information",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/files/83c375c65dc376a4d862ef91c7209202e7736f17",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"files",
+								"83c375c65dc376a4d862ef91c7209202e7736f17"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get file related alerts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/files/83c375c65dc376a4d862ef91c7209202e7736f17/alerts",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"files",
+								"83c375c65dc376a4d862ef91c7209202e7736f17",
+								"alerts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get filed related machines",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/files/83c375c65dc376a4d862ef91c7209202e7736f17/machines",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"files",
+								"83c375c65dc376a4d862ef91c7209202e7736f17",
+								"machines"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get file statistics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/files/83c375c65dc376a4d862ef91c7209202e7736f17/stats",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"files",
+								"83c375c65dc376a4d862ef91c7209202e7736f17",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "IP",
+			"item": [
+				{
+					"name": "Get IP related alerts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/ips/73.50.18.201/alerts",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"ips",
+								"73.50.18.201",
+								"alerts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get IP statistics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/ips/73.50.18.201/stats",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"ips",
+								"73.50.18.201",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get user related alerts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/users/rlilly/alerts",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"rlilly",
+								"alerts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user related machines",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/users/rlilly/machines",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"rlilly",
+								"machines"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Score",
+			"item": [
+				{
+					"name": "List exposure score by machine group",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/exposureScore/ByMachineGroups",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"exposureScore",
+								"ByMachineGroups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get exposure score",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/exposureScore",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"exposureScore"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get machine secure score",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/configurationScore",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"configurationScore"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Software",
+			"item": [
+				{
+					"name": "List Software",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/Software",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"Software"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get software by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/Software/google-_-chrome",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"Software",
+								"google-_-chrome"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List software version distribution",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/Software/google-_-chrome/distributions",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"Software",
+								"google-_-chrome",
+								"distributions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List machines by software",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/Software/google-_-chrome/machineReferences ",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"Software",
+								"google-_-chrome",
+								"machineReferences "
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List vulnerabilities by software",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/Software/google-_-chrome/vulnerabilities",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"Software",
+								"google-_-chrome",
+								"vulnerabilities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get missing KBs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/Software/microsoft-_-edge/getmissingkbs",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"Software",
+								"microsoft-_-edge",
+								"getmissingkbs"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Vulnerability",
+			"item": [
+				{
+					"name": "List vulnerabilities",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/vulnerabilities",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"vulnerabilities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get vulnerability by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/vulnerabilities/CVE-2019-0608",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"vulnerabilities",
+								"CVE-2019-0608"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List machines by vulnerability",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/vulnerabilities/CVE-2019-0608/machineReferences",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"vulnerabilities",
+								"CVE-2019-0608",
+								"machineReferences"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Recommendation",
+			"item": [
+				{
+					"name": "List all recommendations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/recommendations",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"recommendations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get recommendation by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/recommendations/va-_-google-_-chrome",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"recommendations",
+								"va-_-google-_-chrome"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get recommendation by software",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/recommendations/va-_-google-_-chrome/software",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"recommendations",
+								"va-_-google-_-chrome",
+								"software"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List machines by recommendation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/recommendations/va-_-google-_-chrome/machineReferences",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"recommendations",
+								"va-_-google-_-chrome",
+								"machineReferences"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List vulnerabilities by recommendation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Types",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/recommendations/va-_-google-_-chrome/vulnerabilities",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"recommendations",
+								"va-_-google-_-chrome",
+								"vulnerabilities"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Bearer Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "47dd2557-848a-4bc0-974e-269f5306b0cb",
+						"exec": [
+							"let response = JSON.parse(responseBody);\r",
+							"\r",
+							"pm.environment.set(\"mdatpappOnlyAccessToken\", response.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "{{mdatp_client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{mdatp_client_secret}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "{{grant_type}}",
+							"type": "text"
+						},
+						{
+							"key": "resource",
+							"value": "https://api.securitycenter.windows.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login.microsoftonline.com/{{tenantId}}/oauth2/token",
+					"protocol": "https",
+					"host": [
+						"login",
+						"microsoftonline",
+						"com"
+					],
+					"path": [
+						"{{tenantId}}",
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
