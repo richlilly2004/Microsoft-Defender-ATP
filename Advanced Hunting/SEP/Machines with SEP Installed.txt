@@ -1,0 +1,5 @@
+DeviceTvmSoftwareInventoryVulnerabilities
+| where SoftwareVendor == "symantec"
+| where SoftwareName == "endpoint_protection"
+| project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion
+| sort by DeviceName asc

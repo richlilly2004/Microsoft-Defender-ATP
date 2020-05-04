@@ -1,0 +1,10 @@
+let TVMConfigAssess = DeviceTvmSecureConfigurationAssessment
+    | where ConfigurationSubcategory == 'Antivirus'
+    | where ConfigurationId == "scid-2012"
+    | where IsCompliant == "0";
+DeviceTvmSoftwareInventoryVulnerabilities
+| where SoftwareVendor == "symantec"
+| where SoftwareName == "endpoint_protection"
+| project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion
+| join kind= rightanti (TVMConfigAssess) on DeviceName
+| sort by DeviceName asc
