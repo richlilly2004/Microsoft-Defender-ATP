@@ -2759,6 +2759,60 @@
 			],
 			"protocolProfileBehavior": {}
 		},
+				{
+			"name": "Advanced Hunting",
+			"item": [
+				{
+					"name": "Hunt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mdatpappOnlyAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"Query\": \"DeviceRegistryEvents | limit 10\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.securitycenter.windows.com/api/advancedqueries/run",
+							"protocol": "https",
+							"host": [
+								"api",
+								"securitycenter",
+								"windows",
+								"com"
+							],
+							"path": [
+								"api",
+								"advancedqueries",
+								"run"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
 		{
 			"name": "Bearer Token",
 			"event": [
