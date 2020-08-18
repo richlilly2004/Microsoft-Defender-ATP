@@ -1,0 +1,310 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.1.0",
+    "metadata":{
+        "comments": "This playbook will get TI data from Alienvault OTX NOTE: You must create an app registration with the following permissions (and have an admin consent them) Microsoft Graph > ThreatIndicators.ReadWrite.OwnedBy & WindowsDefenderATP > Ti.ReadWrite.All . Also, retrieve the key and generate a shared secret. Finally, create/login to otx.alienvault.com and retrieve your API key.",
+        "author": "Rich Lilly, Tom Lilly"
+    },
+    "parameters": {
+        "PlaybookName": {
+            "defaultValue": "Get-TIfromOTX",
+            "type": "string",
+            "metadata": {
+                "description": "Name of the playbook to be deployed"
+            }
+        },
+        "UserName": {
+            "defaultValue": "<username>@<domain>",
+            "type": "string"
+        },
+        "AAD_TenantID": {
+            "type": "string",
+            "metadata": {
+                "description": "GUID of the Azure AD Tenant to be used"
+            }
+        },
+         "TI_AppReg_ClientID": {
+            "type": "string",
+            "metadata": {
+                "description": "Client ID to be used to import data into Microsoft services"
+            }
+        },
+         "TI_AppReg_ClientSecret": {
+            "type": "secureString",
+            "metadata": {
+                "description": "Client Secret to be used to import data into Microsoft services"
+            }
+        },
+        "OTX_APIKey": {
+            "type": "string",
+            "metadata": {
+                "description": "API Key to be used to authenticate to OTX service"
+            }
+        },
+        "Recurrence_Units": {
+            "type": "string",
+            "allowedValues": [
+                "Day",
+                "Hour"
+            ],
+            "defaultValue": "Day",
+            "metadata": {
+                "description": "Units to use for the recurrence trigger"
+            }
+        },
+        "Recurrence_Value": {
+            "type": "int",
+            "defaultValue": 1,
+            "metadata": {
+                "description": "Frequency of recurrence trigger"
+            }
+        },
+        "Expiration_Duration": {
+            "type": "int",
+            "defaultValue": 7,
+            "metadata": {
+                "description": "Number of days before expiring imported TIs"
+            }
+        }
+    },
+    "variables": {
+        "expirationTime": "[concat('@{addDays(utcNow(),',parameters('Expiration_Duration'),')}')]",
+        "otxModifiedSince": "[concat('@{add',parameters('Recurrence_Units'),'s(utcNow(),-',parameters('Recurrence_Value'),')}')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('PlaybookName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "LogicAppsCategory": "security"
+            },
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "triggers": {
+                        "Recurrence": {
+                            "recurrence": {
+                                "frequency": "[parameters('Recurrence_Units')]",
+                                "interval": "[parameters('Recurrence_Value')]"
+                            },
+                            "type": "Recurrence"
+                        }
+                    },
+                    "actions": {
+                        "For_each": {
+                            "foreach": "@body('Parse_JSON')?['results']",
+                            "actions": {
+                                "Switch": {
+                                    "runAfter": {},
+                                    "cases": {
+                                        "Domain": {
+                                            "case": "domain",
+                                            "actions": {
+                                                "MDATP_domain": {
+                                                    "runAfter": {
+                                                        
+                                                    },
+                                                    "type": "Http",
+                                                    "inputs": {
+                                                        "authentication": {
+                                                            "audience": "https://api.securitycenter.windows.com",
+                                                            "clientId": "[parameters('TI_AppReg_ClientID')]",
+                                                            "secret": "[parameters('TI_AppReg_ClientSecret')]",
+                                                            "tenant": "[parameters('AAD_TenantID')]",
+                                                            "type": "ActiveDirectoryOAuth"
+                                                        },
+                                                        "body": {
+                                                            "action": "AlertAndBlock",
+                                                            "createdBy": "Alientvault OTX",
+                                                            "description": "OTX Threat Indicator - @{items('For_each')?['type']}",
+                                                            "expirationTime": "[variables('expirationTime')]",
+                                                            "indicatorType": "DomainName",
+                                                            "indicatorValue": "@{items('For_each')?['indicator']}",
+                                                            "recommendedActions": "Block and Investigate",
+                                                            "severity": "Medium",
+                                                            "title": "OTX Indicator - @{items('For_each')?['title']}"
+                                                        },
+                                                        "headers": {
+                                                            "content-type": "application/json"
+                                                        },
+                                                        "method": "POST",
+                                                        "uri": "https://api.securitycenter.windows.com/api/indicators"
+                                                    }
+                                                }
+                                                
+                                            }
+                                        },
+                                        "IPv4": {
+                                            "case": "IPv4",
+                                            "actions": {
+                                                "MDATP_IPv4": {
+                                                    "runAfter": {
+                                                        
+                                                    },
+                                                    "type": "Http",
+                                                    "inputs": {
+                                                        "authentication": {
+                                                            "audience": "https://api.securitycenter.windows.com",
+                                                            "clientId": "[parameters('TI_AppReg_ClientID')]",
+                                                            "secret": "[parameters('TI_AppReg_ClientSecret')]",
+                                                            "tenant": "[parameters('AAD_TenantID')]",
+                                                            "type": "ActiveDirectoryOAuth"
+                                                        },
+                                                        "body": {
+                                                            "action": "AlertAndBlock",
+                                                            "createdBy": "Alientvault OTX",
+                                                            "description": "OTX Threat Indicator - @{items('For_each')?['type']}",
+                                                            "expirationTime": "[variables('expirationTime')]",
+                                                            "indicatorType": "IpAddress",
+                                                            "indicatorValue": "@{items('For_each')?['indicator']}",
+                                                            "recommendedActions": "Block and Investigate",
+                                                            "severity": "Medium",
+                                                            "title": "OTX Indicator - @{items('For_each')?['title']}"
+                                                        },
+                                                        "headers": {
+                                                            "content-type": "application/json"
+                                                        },
+                                                        "method": "POST",
+                                                        "uri": "https://api.securitycenter.windows.com/api/indicators"
+                                                    }
+                                                }
+                                                
+                                            }
+                                        },
+                                        "URL": {
+                                            "case": "URL",
+                                            "actions": {
+                                                "MDATP_URL": {
+                                                    "runAfter": {
+                                                        
+                                                    },
+                                                    "type": "Http",
+                                                    "inputs": {
+                                                        "authentication": {
+                                                            "audience": "https://api.securitycenter.windows.com",
+                                                            "clientId": "[parameters('TI_AppReg_ClientID')]",
+                                                            "secret": "[parameters('TI_AppReg_ClientSecret')]",
+                                                            "tenant": "[parameters('AAD_TenantID')]",
+                                                            "type": "ActiveDirectoryOAuth"
+                                                        },
+                                                        "body": {
+                                                            "action": "AlertAndBlock",
+                                                            "createdBy": "Alientvault OTX",
+                                                            "description": "OTX Threat Indicator - @{items('For_each')?['type']}",
+                                                            "expirationTime": "[variables('expirationTime')]",
+                                                            "indicatorType": "Url",
+                                                            "indicatorValue": "@{items('For_each')?['indicator']}",
+                                                            "recommendedActions": "Block and Investigate",
+                                                            "severity": "Medium",
+                                                            "title": "OTX Indicator - @{items('For_each')?['title']}"
+                                                        },
+                                                        "headers": {
+                                                            "content-type": "application/json"
+                                                        },
+                                                        "method": "POST",
+                                                        "uri": "https://api.securitycenter.windows.com/api/indicators"
+                                                    }
+                                                }
+                                                
+                                            }
+                                        },
+                                        "email": {
+                                            "case": "email",
+                                            "actions": {
+                                                
+                                            }
+                                        }
+                                    },
+                                    "default": {
+                                        "actions": {}
+                                    },
+                                    "expression": "@items('For_each')?['type']",
+                                    "type": "Switch"
+                                }
+                            },
+                            "runAfter": {
+                                "Parse_JSON": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Foreach"
+                        },
+                        "HTTP": {
+                            "runAfter": {},
+                            "type": "Http",
+                            "inputs": {
+                                "headers": {
+                                    "X-OTX-API-KEY": "[parameters('OTX_APIKey')]"
+                                },
+                                "method": "GET",
+                                "queries": {
+                                    "modified_since": "[variables('otxModifiedSince')]",
+                                    "types": "IPv4,domain,hostname,url,email"
+                                },
+                                "uri": "https://otx.alienvault.com/api/v1/indicators/export"
+                            }
+                        },
+                        "Parse_JSON": {
+                            "runAfter": {
+                                "HTTP": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ParseJson",
+                            "inputs": {
+                                "content": "@body('HTTP')",
+                                "schema": {
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer"
+                                        },
+                                        "next": {},
+                                        "previous": {},
+                                        "results": {
+                                            "items": {
+                                                "properties": {
+                                                    "content": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {},
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "indicator": {
+                                                        "type": "string"
+                                                    },
+                                                    "title": {},
+                                                    "type": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "indicator",
+                                                    "description",
+                                                    "title",
+                                                    "content",
+                                                    "type",
+                                                    "id"
+                                                ],
+                                                "type": "object"
+                                            },
+                                            "type": "array"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {}
+            }
+        }
+    ]
+}
