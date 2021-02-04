@@ -1,0 +1,132 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata":{
+        "comments": "This playbook will tag all machines that haven't checked in, in the last 30 days, with the tag Decommissioned. This playbook will run once a day, please make sure to run the initial playbook first.",
+        "author": "Rich Lilly, Tom Lilly"
+    },
+    "parameters": {
+        "PlaybookName": {
+            "defaultValue": "Tag-DecomissionedMachines-Recurring",
+            "type": "string",
+            "metadata": {
+                "description": "Name of the playbook to be deployed"
+            }
+        },
+        "UserName": {
+            "defaultValue": "<username>@<domain>",
+            "type": "string"
+        }
+    },
+    "variables": {
+        "MDEConnectionName": "[concat('wdatp-', parameters('PlaybookName'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/connections",
+            "apiVersion": "2016-06-01",
+            "name": "[variables('MDEConnectionName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "displayName": "[parameters('UserName')]",
+                "customParameterValues": {},
+                "api": {
+                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/wdatp')]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('PlaybookName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "LogicAppsCategory": "security"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/connections', variables('MDEConnectionName'))]"
+            ],
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "Recurrence": {
+                            "recurrence": {
+                                "frequency": "Day",
+                                "interval": 1,
+                                "startTime": "2021-02-03T00:00:00Z"
+                            },
+                            "type": "Recurrence"
+                        }
+                    },
+                    "actions": {
+                        "For_each": {
+                            "foreach": "@body('Machines_-_Get_list_of_machines')?['value']",
+                            "actions": {
+                                "Machines_-_Tag_machine": {
+                                    "runAfter": {},
+                                    "type": "ApiConnection",
+                                    "inputs": {
+                                        "body": {
+                                            "Action": "Add",
+                                            "Value": "Decommissioned"
+                                        },
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['wdatp']['connectionId']"
+                                            }
+                                        },
+                                        "method": "post",
+                                        "path": "/api/machines/@{encodeURIComponent(items('For_each')?['id'])}/tags"
+                                    }
+                                }
+                            },
+                            "runAfter": {
+                                "Machines_-_Get_list_of_machines": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Foreach"
+                        },
+                        "Machines_-_Get_list_of_machines": {
+                            "runAfter": {},
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['wdatp']['connectionId']"
+                                    }
+                                },
+                                "method": "get",
+                                "path": "/api/machines",
+                                "queries": {
+                                    "$filter": "lastSeen le @{addDays(utcNow(),-30,'yyyy-MM-dd')} and RBACGroupId ne 4495"
+                                }
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "wdatp": {
+                                    "connectionId": "[resourceId('Microsoft.Web/connections', variables('MDEConnectionName'))]",
+                                    "connectionName": "[variables('MDEConnectionName')]",
+                                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/wdatp')]"
+                                }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
