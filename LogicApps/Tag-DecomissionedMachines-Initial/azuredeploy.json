@@ -28,6 +28,7 @@
             "name": "[variables('MDEConnectionName')]",
             "location": "[resourceGroup().location]",
             "properties": {
+                "displayName": "[parameters('UserName')]",
                 "customParameterValues": {},
                 "api": {
                     "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/wdatp')]"
@@ -118,10 +119,10 @@
                     "$connections": {
                         "value": {
                             "wdatp": {
-                                "connectionId": "[resourceId('Microsoft.Web/connections', variables('MDEConnectionName'))]",
-                                "connectionName": "[variables('MDEConnectionName')]",
-                                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/wdatp')]"
-                            }
+                                    "connectionId": "[resourceId('Microsoft.Web/connections', variables('MDEConnectionName'))]",
+                                    "connectionName": "[variables('MDEConnectionName')]",
+                                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/wdatp')]"
+                                }
                         }
                     }
                 }
