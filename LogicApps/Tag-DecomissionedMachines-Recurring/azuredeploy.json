@@ -17,7 +17,7 @@
             "defaultValue": "<username>@<domain>",
             "type": "string"
         },
-        "RBAC Group ID": {
+        "RBAC_Group_ID": {
             "defaultValue": "4495",
             "type": "string",
             "metadata": {
@@ -88,7 +88,7 @@
                                         },
                                         "host": {
                                             "connection": {
-                                                "name": "@parameters('$connections')['wdatp_1']['connectionId']"
+                                                "name": "@parameters('$connections')['wdatp']['connectionId']"
                                             }
                                         },
                                         "method": "post",
@@ -111,7 +111,7 @@
                                     {
                                         "name": "rbacGroupId",
                                         "type": "string",
-                                        "value": "[parameters('RBAC Group ID')]"
+                                        "value": "[parameters('RBAC_Group_ID')]"
                                     }
                                 ]
                             }
@@ -126,13 +126,13 @@
                             "inputs": {
                                 "host": {
                                     "connection": {
-                                        "name": "@parameters('$connections')['wdatp_1']['connectionId']"
+                                        "name": "@parameters('$connections')['wdatp']['connectionId']"
                                     }
                                 },
                                 "method": "get",
                                 "path": "/api/machines",
                                 "queries": {
-                                    "$filter": "lastSeen le @{addDays(utcNow(),-30,'yyyy-MM-dd')} and rbacGroupId ne @{variables('rbacGroupId')}"
+                                    "$filter": "lastSeen le @{addDays(utcNow(),-30,'yyyy-MM-dd')} and RBACGroupId ne @{variables('rbacGroupId')}"
                                 }
                             }
                         }
