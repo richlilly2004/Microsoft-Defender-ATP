@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "metadata":{
-        "comments": "This playbook will tag all machines that haven't checked in, in the last 30 days, with the tag Decommissioned. This playbook will run once a day, please make sure to run the initial playbook first.",
+        "comments": "This playbook will tag all machines that haven't checked in, in the last 30 days, with the tag Decommissioned. This playbook will run once a day, please make sure to run the initial playbook first. Note that you will need to first create an RBAC Group named Decommissioned Machines and get the RBAC Group ID w/ tag Decommissioned to minimize retagging everything.",
         "author": "Rich Lilly, Tom Lilly"
     },
     "parameters": {
@@ -16,6 +16,13 @@
         "UserName": {
             "defaultValue": "<username>@<domain>",
             "type": "string"
+        },
+        "RBAC Group ID": {
+            "defaultValue": "4495",
+            "type": "string",
+            "metadata": {
+                "description": "RBAC Group ID for Decommissioned Machines with tag Decommissioned"
+            }
         }
     },
     "variables": {
@@ -81,7 +88,7 @@
                                         },
                                         "host": {
                                             "connection": {
-                                                "name": "@parameters('$connections')['wdatp']['connectionId']"
+                                                "name": "@parameters('$connections')['wdatp_1']['connectionId']"
                                             }
                                         },
                                         "method": "post",
@@ -96,19 +103,36 @@
                             },
                             "type": "Foreach"
                         },
-                        "Machines_-_Get_list_of_machines": {
+                        "Initialize_variable": {
                             "runAfter": {},
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "rbacGroupId",
+                                        "type": "string",
+                                        "value": "[parameters('RBAC Group ID')]"
+                                    }
+                                ]
+                            }
+                        },
+                        "Machines_-_Get_list_of_machines": {
+                            "runAfter": {
+                                "Initialize_variable": [
+                                    "Succeeded"
+                                ]
+                            },
                             "type": "ApiConnection",
                             "inputs": {
                                 "host": {
                                     "connection": {
-                                        "name": "@parameters('$connections')['wdatp']['connectionId']"
+                                        "name": "@parameters('$connections')['wdatp_1']['connectionId']"
                                     }
                                 },
                                 "method": "get",
                                 "path": "/api/machines",
                                 "queries": {
-                                    "$filter": "lastSeen le @{addDays(utcNow(),-30,'yyyy-MM-dd')} and RBACGroupId ne 4495"
+                                    "$filter": "lastSeen le @{addDays(utcNow(),-30,'yyyy-MM-dd')} and rbacGroupId ne @{variables('rbacGroupId')}"
                                 }
                             }
                         }
