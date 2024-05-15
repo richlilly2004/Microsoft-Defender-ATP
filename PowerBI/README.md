@@ -7,7 +7,7 @@ The MDE Portal Dashboard is meant to extract information from 3 different data s
 This Power BI report contains multiple different tabs for various purposes:
 
 - **Machines** - This page gives an overall breakdown of machines onboarded to the service, including health state, alert stats, and Operating System breakdown
-- **Azure Status** - This page gives an overall view of Azure Virtual Machines that have been onboarded through Microsoft Defender for Cloud (MDC). It is meant to track devices that have been synchronized from MDC to MDE, and optionally track those that were synced to Entra ID for Policy management through Intune.
+- **Azure Onboarding Status** - This page gives an overall view of Azure Virtual Machines that have been onboarded through Microsoft Defender for Cloud (MDC). It is meant to track devices that have been synchronized from MDC to MDE, and optionally track those that were synced to Entra ID for Policy management through Intune.
 - **Alerts** - This page gives a breakdown on Alerts generated in your environment, including statistics on Severity, Status, and individual detailed information.
 - **Investigation Results** - This page shows the disposition of alerts within the environment, their category, and the means of resolution.
 - **Action Center** - This page shows actions taken on machines within MDE, including counts for machines that are currently under restricted execution, isolation, and files that are blocked.
